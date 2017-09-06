@@ -18,7 +18,26 @@ volume_size=$(isoinfo -d -i /dev/cdrom | grep -i -E 'volume size' | grep -o '[0-
 
 dd if=/dev/cdrom of=$iso_name.iso bs=$block_size count=$volume_size
 
-eject
+#to add: error handling
+echo "Operation concluded succesfully!"
+
+while true; do
+    read -p "Do you wish to eject disk? " yn
+    case $yn in
+        [Yy]* ) eject; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+while true; do
+    read -p "Do you wish to close tray? " yn
+    case $yn in
+        [Yy]* ) eject -t; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
 
 #open tray
 #echo "Do you wish to open the disk tray?"
